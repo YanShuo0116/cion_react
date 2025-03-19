@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CryptoCard.css';
 
 interface CryptoCardProps {
@@ -13,6 +13,10 @@ interface CryptoCardProps {
   index?: number;
 }
 
+interface CoinDescriptionMap {
+  [key: string]: string;
+}
+
 const CryptoCard: React.FC<CryptoCardProps> = ({
   id,
   name,
@@ -24,8 +28,63 @@ const CryptoCard: React.FC<CryptoCardProps> = ({
   total_volume,
   index = 0
 }) => {
-  // 添加狀態管理卡片是否展開
+  // 添加狀態管理卡片是否展開和描述資料
   const [isExpanded, setIsExpanded] = useState(false);
+  const [descriptions, setDescriptions] = useState<CoinDescriptionMap>({});
+
+  // 載入幣種描述
+  useEffect(() => {
+    // 這裡直接將CSV的內容轉換為JavaScript對象
+    const descriptionsMap: CoinDescriptionMap = {
+      'btc': 'BTC (Bitcoin): 首個加密貨幣，去中心化數位貨幣，透過區塊鏈技術實現安全交易，被視為數位黃金。',
+      'eth': 'ETH (Ethereum): 智能合約平台，支援去中心化應用程式（DApp），推動 DeFi 和 NFT 的發展。',
+      'usdt': 'USDT (Tether): 穩定幣，價值與美元掛鉤，旨在提供價格穩定性，常用於加密貨幣交易對。',
+      'xrp': 'XRP (XRP): 支付協議，旨在促進快速、低成本的跨境支付，目標是改善全球金融體系。',
+      'bnb': 'BNB (BNB): 幣安交易所的原生代幣，用於支付交易手續費、參與 IEO 等，並用於 BNB Chain 生態系。',
+      'sol': 'SOL (Solana): 高性能區塊鏈，提供快速交易速度和低廉的手續費，適用於 DApp 和 DeFi 應用。',
+      'usdc': 'USDC (USDC): 穩定幣，與美元 1:1 錨定，由 Centre Consortium 發行，受監管且透明。',
+      'ada': 'ADA (Cardano): 第三代區塊鏈，強調科學哲學和可持續性，旨在建立一個更安全、透明的區塊鏈平台。',
+      'doge': 'DOGE (Dogecoin): 迷因幣，起源於網路玩笑，但因社群支持和名人推廣而廣受歡迎。',
+      'trx': 'TRX (TRON): 去中心化娛樂平台，旨在建立一個免費、全球內容分享系統，並支持 DApp 開發。',
+      'steth': 'STETH (Lido Staked Ether): 在Lido質押的以太幣的代表，允許用戶在獲得質押獎勵的同時保持ETH的流動性。',
+      'wbtc': 'WBTC (Wrapped Bitcoin): ERC-20 代幣，代表 Bitcoin 在 Ethereum 上的價值，方便 Bitcoin 參與 DeFi 活動。',
+      'link': 'LINK (Chainlink): 去中心化預言機網路，為智能合約提供鏈外數據，確保智能合約的可靠性。',
+      'leo': 'LEO (LEO Token): Bitfinex 交易所的實用型代幣，持有者可享有交易手續費折扣等優惠。',
+      'ton': 'TON (Toncoin): Telegram 開發的區塊鏈平台，旨在提供快速、安全的交易和 DApp 服務。',
+      'xlm': 'XLM (Stellar): 支付協議，旨在促進快速、低成本的跨境支付，目標是改善全球金融包容性。',
+      'dot': 'DOT (Polkadot): 多鏈區塊鏈，旨在連接不同的區塊鏈，實現跨鏈互操作性，建立一個去中心化網路。',
+      'shib': 'SHIB (Shiba Inu): 迷因幣，以 Dogecoin 為靈感，建立龐大社群，並發展 DeFi 生態系。',
+      'sui': 'SUI (Sui): 新興區塊鏈，強調可擴展性和低延遲，使用物件導向模型，專為遊戲和社交應用設計。',
+      'ltc': 'LTC (Litecoin): 早期加密貨幣，以快速交易速度和不同的挖礦演算法而聞名，被視為「數位白銀」。',
+      'bch': 'BCH (Bitcoin Cash): Bitcoin 的硬分叉，旨在提高交易速度和容量，但社群和發展存在分歧。',
+      'atom': 'ATOM (Cosmos Hub): 區塊鏈網路，旨在連接不同的區塊鏈，實現跨鏈互操作性，建立一個「區塊鏈互聯網」。',
+      'avax': 'AVAX (Avalanche): 快速、低成本的區塊鏈平台，支援多種共識機制，適用於 DeFi 和企業應用。',
+      'uni': 'UNI (Uniswap): 去中心化交易所 (DEX)，採用自動做市商 (AMM) 模式，允許用戶交易 ERC-20 代幣。',
+      'xmr': 'XMR (Monero): 注重隱私的加密貨幣，採用 Ring Signatures 和 Stealth Addresses 等技術，保護交易隱私。',
+      'apt': 'APT (Aptos): 新興區塊鏈，強調安全性和可擴展性，採用 Move 語言，專為高性能應用設計。',
+      'near': 'NEAR (NEAR Protocol): 可擴展的區塊鏈平台，旨在簡化 DApp 開發，提供友好的用戶體驗。',
+      'dai': 'DAI (Dai): 去中心化穩定幣，由 MakerDAO 協議發行，與美元掛鉤，透過超額抵押機制維持價格穩定。',
+      'okb': 'OKB (OKB): OKX 交易所的實用型代幣，持有者可享有交易手續費折扣等優惠。',
+      'pepe': 'PEPE (Pepe): 基於Pepe the Frog迷因的加密貨幣，以其社群驅動的性質和在社交媒體上的病毒式傳播而聞名。',
+      'icp': 'ICP (Internet Computer): 去中心化雲計算平台，旨在取代傳統互聯網服務，支持 DApp 和網站開發。',
+      'etc': 'ETC (Ethereum Classic): Ethereum 的原始鏈，堅守區塊鏈不可篡改的原則，社群較小。',
+      'gt': 'GT (GateToken): Gate.io 交易所的原生代幣，提供交易折扣、Launchpad 參與等權益。',
+      'vet': 'VET (VeChain): 企業級區塊鏈，專注於供應鏈管理和產品溯源，提供可追蹤的產品資訊。',
+      'fil': 'FIL (Filecoin): 去中心化儲存網路，旨在建立一個開放、分散式的數據儲存市場。',
+      'arb': 'ARB (Arbitrum): Ethereum 的 Layer 2 擴容方案，採用 Optimistic Rollups 技術，提高交易速度和降低手續費。',
+      'algo': 'ALGO (Algorand): 區塊鏈，採用 Pure Proof-of-Stake (PPoS) 共識機制，提供快速、安全、低成本的交易。',
+      'op': 'OP (Optimism): Ethereum 的 Layer 2 擴容方案，採用 Optimistic Rollups 技術，提高交易速度和降低手續費。',
+      'kcs': 'KCS (KuCoin Token): KuCoin 交易所的原生代幣，提供交易折扣、Launchpad 參與等權益。',
+      'flow': 'FLOW (Flow): 快速、低成本的區塊鏈平台，專為 NFT 和遊戲應用設計。',
+      'cake': 'CAKE (PancakeSwap): Binance Smart Chain 上的去中心化交易所 (DEX)，採用自動做市商 (AMM) 模式，提供多樣化的 DeFi 功能。',
+      'neo': 'NEO (NEO): 中國區塊鏈平台，旨在建立一個智能經濟系統，支持 DApp 和智能合約開發。',
+      'hnt': 'HNT (Helium): 去中心化無線網路，旨在建立一個全球覆蓋的 IoT 網路。',
+      'axs': 'AXS (Axie Infinity Shards): Axie Infinity 遊戲的治理代幣，用於參與遊戲決策和生態系發展。',
+      'zec': 'ZEC (Zcash): 注重隱私的加密貨幣，採用 zk-SNARKs 技術，提供完全匿名的交易。',
+    };
+    
+    setDescriptions(descriptionsMap);
+  }, []);
 
   // 格式化價格為美元格式
   const formatCurrency = (value: number): string => {
@@ -55,24 +114,13 @@ const CryptoCard: React.FC<CryptoCardProps> = ({
 
   // 根據加密貨幣獲取更豐富的描述
   const getCryptoDescription = () => {
-    const descriptions: {[key: string]: string} = {
-      'bitcoin': '比特幣是第一個也是市值最高的加密貨幣，由中本聰於2009年創建。它是一種去中心化的數位貨幣，沒有中央銀行或單一管理者。',
-      'ethereum': '以太坊是一個開源的區塊鏈平台，支持智能合約功能。它由Vitalik Buterin於2015年推出，成為第二大加密貨幣。',
-      'tether': 'Tether是一種穩定幣，其價值與美元1:1掛鉤。它作為傳統貨幣與加密貨幣之間的橋梁，為交易提供穩定性。',
-      'binancecoin': '幣安幣是幣安交易所的原生代幣，用於支付交易費用並參與幣安生態系統中的各種活動。',
-      'solana': 'Solana是一個高性能區塊鏈，專注於快速交易和去中心化應用程序，擁有極高的擴展性和低廉的交易費用。',
-      'cardano': '卡爾達諾是由以太坊聯合創始人Charles Hoskinson發起的區塊鏈平台，採用科學哲學和研究驅動的方法。',
-      'ripple': 'Ripple是一個數字支付協議和貨幣交換網絡，專注於全球金融交易，提供快速、低成本的國際匯款服務。',
-      'polkadot': 'Polkadot是一個創新的多鏈系統，允許不同區塊鏈之間進行互操作，由Web3基金會創立。',
-      'dogecoin': '狗狗幣最初是作為網絡玩笑創建的，以柴犬為標誌，在埃隆·馬斯克等名人支持下獲得巨大關注。',
-      'tron': 'TRON是由Justin Sun創建的去中心化平台，專注於內容分享和娛樂產業，為創作者提供更多控制權。'
-    };
-
-    // 如果有預設描述則使用，否則生成通用描述
-    if (descriptions[id.toLowerCase()]) {
-      return descriptions[id.toLowerCase()] + `\n\n目前市值為 ${formatCurrency(market_cap)}，24小時交易量為 ${formatCurrency(total_volume)}。在過去24小時內，${name} 的價格${price_change_percentage_24h >= 0 ? '上漲' : '下跌'}了 ${Math.abs(price_change_percentage_24h).toFixed(2)}%。`;
+    // 優先使用CSV中的描述
+    const lowerSymbol = symbol.toLowerCase();
+    if (descriptions[lowerSymbol]) {
+      return `${descriptions[lowerSymbol]}\n\n目前市值為 ${formatCurrency(market_cap)}，24小時交易量為 ${formatCurrency(total_volume)}。在過去24小時內，${name} 的價格${price_change_percentage_24h >= 0 ? '上漲' : '下跌'}了 ${Math.abs(price_change_percentage_24h).toFixed(2)}%。`;
     }
 
+    // 備用描述
     return `${name} (${symbol.toUpperCase()}) 是全球知名的加密貨幣之一，在區塊鏈技術領域佔有重要地位。該貨幣具有去中心化特性，交易過程安全且透明。
 
 目前市值為 ${formatCurrency(market_cap)}，24小時交易量為 ${formatCurrency(total_volume)}。在過去24小時內，${name} 的價格${price_change_percentage_24h >= 0 ? '上漲' : '下跌'}了 ${Math.abs(price_change_percentage_24h).toFixed(2)}%。
