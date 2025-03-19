@@ -1,0 +1,204 @@
+.crypto-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  margin: 10px;
+  transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1);
+  text-decoration: none;
+  color: inherit;
+  min-width: 300px;
+  border: 1px solid #333;
+  position: relative;
+  overflow: hidden;
+  animation: cardAppear 0.6s cubic-bezier(0.215, 0.610, 0.355, 1) backwards;
+}
+
+.crypto-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(107, 0, 255, 0.05) 0%, rgba(0, 191, 255, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.crypto-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  border-color: #444;
+}
+
+.crypto-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.crypto-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.crypto-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.crypto-logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  animation: logoSpin 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes logoSpin {
+  from {
+    opacity: 0;
+    transform: rotate(-20deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+.crypto-card:hover .crypto-logo {
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(107, 0, 255, 0.2);
+}
+
+.crypto-name {
+  display: flex;
+  flex-direction: column;
+}
+
+.crypto-name h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #f5f5f5;
+  transition: color 0.3s ease;
+}
+
+.crypto-card:hover .crypto-name h3 {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(107, 0, 255, 0.4);
+}
+
+.crypto-symbol {
+  font-size: 14px;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+.crypto-price {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.crypto-card:hover .crypto-price {
+  transform: translateX(5px);
+}
+
+.current-price {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+  color: #f5f5f5;
+  transition: all 0.3s ease;
+}
+
+.crypto-card:hover .current-price {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(0, 191, 255, 0.5);
+}
+
+.price-change {
+  font-size: 16px;
+  margin: 5px 0 0 0;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.price-up {
+  color: #00c853;
+  text-shadow: 0 0 10px rgba(0, 200, 83, 0.3);
+}
+
+.price-down {
+  color: #ff5252;
+  text-shadow: 0 0 10px rgba(255, 82, 82, 0.3);
+}
+
+.crypto-card:hover .price-up {
+  color: #00e676;
+  text-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
+}
+
+.crypto-card:hover .price-down {
+  color: #ff1744;
+  text-shadow: 0 0 15px rgba(255, 23, 68, 0.5);
+}
+
+.crypto-details {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.crypto-card:hover .crypto-details {
+  background-color: rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  transition: transform 0.3s ease;
+}
+
+.detail-item:hover {
+  transform: translateX(3px);
+}
+
+.detail-label {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: #d9d9d9;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.crypto-card:hover .detail-value {
+  color: #fff;
+} 
