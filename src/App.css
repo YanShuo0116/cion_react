@@ -170,15 +170,25 @@ body {
 @media (max-width: 768px) {
   .crypto-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    gap: 10px;
+    padding: 0 5px;
   }
   
   .app-header h1 {
-    font-size: 24px;
+    font-size: 22px;
   }
   
   .search-input {
     font-size: 14px;
     padding: 10px 15px;
+  }
+
+  .app-main {
+    padding: 15px 10px;
+  }
+
+  .app-footer {
+    padding: 15px;
+    font-size: 12px;
   }
 }
