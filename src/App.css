@@ -103,7 +103,7 @@ body {
 .crypto-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 25px;
+  gap: 20px;
 }
 
 .loading, .error-message, .no-results {
@@ -169,7 +169,8 @@ body {
 
 @media (max-width: 768px) {
   .crypto-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
   }
   
   .app-header h1 {

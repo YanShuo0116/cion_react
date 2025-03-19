@@ -14,6 +14,7 @@
   position: relative;
   overflow: hidden;
   animation: cardAppear 0.6s cubic-bezier(0.215, 0.610, 0.355, 1) backwards;
+  cursor: pointer;
 }
 
 .crypto-card::before {
@@ -37,6 +38,15 @@
 
 .crypto-card:hover::before {
   opacity: 1;
+}
+
+/* 展開狀態樣式 */
+.crypto-card.expanded {
+  transform: scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  border-color: #6b00ff;
+  max-height: 100%;
+  z-index: 10;
 }
 
 @keyframes cardAppear {
@@ -201,4 +211,109 @@
 
 .crypto-card:hover .detail-value {
   color: #fff;
+}
+
+/* 展開卡片後顯示的詳細信息 */
+.crypto-expanded-info {
+  margin-top: 20px;
+  border-top: 1px solid rgba(107, 0, 255, 0.3);
+  padding-top: 20px;
+  animation: expandInfo 0.5s ease forwards;
+  transform-origin: top center;
+}
+
+@keyframes expandInfo {
+  from {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.crypto-description {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  color: #d9d9d9;
+  font-size: 14px;
+}
+
+/* 酷炫的查看更多按鈕 */
+.view-more-btn {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #6b00ff 0%, #00bfff 100%);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 10px auto 0;
+  width: 80%;
+  max-width: 200px;
+  transition: all 0.4s ease;
+  box-shadow: 0 6px 15px rgba(107, 0, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transform: translateZ(0);
+}
+
+.view-more-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(107, 0, 255, 0.5);
+}
+
+.view-more-btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.view-more-btn span {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.btn-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #6b00ff, #00bfff, #6b00ff);
+  background-size: 200% 200%;
+  mix-blend-mode: hard-light;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease;
+  animation: gradientMove 3s ease infinite;
+}
+
+.view-more-btn:hover .btn-effect {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 響應式：手機上每行顯示兩個卡片 */
+@media (max-width: 768px) {
+  .crypto-card {
+    min-width: 45%;
+  }
 } 
